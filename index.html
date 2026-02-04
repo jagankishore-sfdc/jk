@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Be My Valentine 💖</title>
+  <style>
+    body {
+      font-family: "Comic Sans MS", cursive;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #ffd6e8, #ffeef6);
+      overflow: hidden;
+    }
+
+    .open-btn {
+      padding: 15px 30px;
+      font-size: 22px;
+      border: none;
+      border-radius: 12px;
+      background: #ff4d8d;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      position: relative;
+      width: 340px;
+    }
+
+    img {
+      width: 200px;
+      margin: 10px 0;
+    }
+
+    .buttons {
+      margin-top: 20px;
+      position: relative;
+      height: 60px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    #yesBtn {
+      background: #4CAF50;
+      color: white;
+    }
+
+    #noBtn {
+      background: #ff4d4d;
+      color: white;
+      position: absolute;
+      left: 150px;
+    }
+
+    .result {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<button class="open-btn" onclick="openModal()">
+  💘 Click Me 💘
+</button>
+
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h2>Hey Sri 🐧💖</h2>
+    <p>Will you be my Valentine?</p>
+
+    <img id="mainGif"
+      src="https://media.giphy.com/media/8zYunr3Hg8XPq/giphy.gif"
+      alt="Cute penguin" />
+
+    <div class="buttons">
+      <button id="yesBtn" onclick="sayYes()">Yes 💘</button>
+      <button id="noBtn" onmouseover="moveNo()">No 🙈</button>
+    </div>
+
+    <div class="result" id="result">
+      <img
+        src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif"
+        alt="Dancing" />
+      <h2>Best decision ever 💃🕺💖</h2>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openModal() {
+    document.getElementById("modal").style.display = "flex";
+  }
+
+  function moveNo() {
+    const noBtn = document.getElementById("noBtn");
+    const x = Math.random() * 200;
+    const y = Math.random() * 40;
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+  }
+
+  function sayYes() {
+    document.querySelector(".buttons").style.display = "none";
+    document.getElementById("mainGif").style.display = "none";
+    document.getElementById("result").style.display = "block";
+  }
+</script>
+
+</body>
+</html>

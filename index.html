@@ -17,7 +17,7 @@ body {
   align-items: center;
 }
 
-/* Hearts */
+/* Floating Hearts */
 .heart {
   position: absolute;
   bottom: -20px;
@@ -30,7 +30,7 @@ body {
   100% { transform: translateY(-110vh); opacity: 0; }
 }
 
-/* Launch Button */
+/* Open Button */
 .open-btn {
   padding: 18px 32px;
   font-size: 22px;
@@ -39,6 +39,7 @@ body {
   background: #ff3b8d;
   color: white;
   cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255,0,120,0.4);
 }
 
 /* Modal */
@@ -56,11 +57,11 @@ body {
   padding: 28px;
   border-radius: 26px;
   width: 95%;
-  max-width: 440px; /* wide */
+  max-width: 440px;
   text-align: center;
 }
 
-/* Fairy name */
+/* Fairy Name */
 .fairy-name {
   font-size: 38px;
   color: #ff2f92;
@@ -78,18 +79,18 @@ img {
   margin: 14px 0;
 }
 
-/* Buttons area (KEY FIX) */
+/* Buttons Area */
 .buttons-area {
   position: relative;
   height: 90px;
   margin-top: 20px;
 }
 
-/* YES button – fixed position */
 #yesBtn {
   position: absolute;
   left: 0;
   top: 15px;
+  width: 120px;
   padding: 14px 28px;
   font-size: 18px;
   border-radius: 16px;
@@ -97,14 +98,13 @@ img {
   background: #4CAF50;
   color: white;
   cursor: pointer;
-  width: 120px;
 }
 
-/* NO button – fixed size, movable */
 #noBtn {
   position: absolute;
   right: 0;
   top: 15px;
+  width: 120px;
   padding: 14px 28px;
   font-size: 18px;
   border-radius: 16px;
@@ -112,7 +112,6 @@ img {
   background: #ff4d4d;
   color: white;
   cursor: pointer;
-  width: 120px;   /* 🔒 LOCK SIZE */
 }
 
 .result {
@@ -132,8 +131,10 @@ img {
     <div class="fairy-name">✨ Sri ✨</div>
     <p>Will you be my Valentine? 💖</p>
 
-    <img id="penguin"
-      src="https://media.giphy.com/media/8zYunr3Hg8XPq/giphy.gif" />
+    <!-- 🌸 DUDU WITH FLOWERS -->
+    <img id="mainGif"
+      src="https://media.giphy.com/media/3oriO6qJiXajN0TyDu/giphy.gif"
+      alt="Dudu with flowers" />
 
     <div class="buttons-area">
       <button id="yesBtn" onclick="sayYes()">Yes 💘</button>
@@ -141,13 +142,16 @@ img {
     </div>
 
     <div class="result" id="result">
-      <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" />
+      <!-- 💋 DUDU KISSING BUBU -->
+      <img
+        src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif"
+        alt="Dudu kissing Bubu" />
       <h2>Best decision ever 💃🕺💖</h2>
     </div>
   </div>
 </div>
 
-<!-- Romantic Music (better + reliable) -->
+<!-- Romantic Music -->
 <audio id="bgMusic" loop preload="auto">
   <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_739b0fd4d2.mp3" type="audio/mpeg">
 </audio>
@@ -157,7 +161,7 @@ const noBtn = document.getElementById("noBtn");
 const music = document.getElementById("bgMusic");
 let musicStarted = false;
 
-/* Start music only once */
+/* Start music once */
 function startMusic() {
   if (!musicStarted) {
     music.volume = 0.6;
@@ -170,7 +174,7 @@ function openModal() {
   startMusic();
 }
 
-/* Move NO button without resizing */
+/* Move NO button */
 function moveNo(e) {
   e.preventDefault();
   startMusic();
@@ -183,19 +187,19 @@ function moveNo(e) {
   noBtn.style.top  = Math.random() * maxY + "px";
 }
 
-/* Desktop + Mobile */
 noBtn.addEventListener("mouseenter", moveNo);
 noBtn.addEventListener("touchstart", moveNo);
 noBtn.addEventListener("click", moveNo);
 
+/* YES */
 function sayYes() {
   startMusic();
   document.querySelector(".buttons-area").style.display = "none";
-  document.getElementById("penguin").style.display = "none";
+  document.getElementById("mainGif").style.display = "none";
   document.getElementById("result").style.display = "block";
 }
 
-/* Floating hearts */
+/* Floating Hearts */
 function createHeart() {
   const heart = document.createElement("div");
   heart.className = "heart";
@@ -207,7 +211,7 @@ function createHeart() {
 }
 setInterval(createHeart, 450);
 
-/* Guarantee music on first interaction */
+/* Ensure music starts on any interaction */
 document.body.addEventListener("click", startMusic, { once: true });
 </script>
 

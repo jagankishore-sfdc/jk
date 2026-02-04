@@ -17,20 +17,20 @@ body {
   align-items: center;
 }
 
-/* Floating Hearts */
+/* Hearts */
 .heart {
   position: absolute;
   bottom: -20px;
   font-size: 22px;
   animation: floatUp linear infinite;
-  opacity: 0.75;
+  opacity: 0.7;
 }
 @keyframes floatUp {
-  0% { transform: translateY(0) scale(1); opacity: 1; }
-  100% { transform: translateY(-110vh) scale(1.4); opacity: 0; }
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-110vh); opacity: 0; }
 }
 
-/* Open Button */
+/* Launch Button */
 .open-btn {
   padding: 18px 32px;
   font-size: 22px;
@@ -39,7 +39,6 @@ body {
   background: #ff3b8d;
   color: white;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(255,0,120,0.4);
 }
 
 /* Modal */
@@ -54,27 +53,24 @@ body {
 
 .modal-content {
   background: white;
-  padding: 26px;
+  padding: 28px;
   border-radius: 26px;
   width: 95%;
-  max-width: 420px; /* 👈 wider modal */
+  max-width: 440px; /* wide */
   text-align: center;
 }
 
-/* Fairy Name */
+/* Fairy name */
 .fairy-name {
   font-size: 38px;
   color: #ff2f92;
   text-shadow:
     0 0 10px #ff9fc9,
-    0 0 20px #ff6fae,
-    0 0 30px #ff2f92;
+    0 0 20px #ff6fae;
   animation: floatName 3s ease-in-out infinite;
 }
 @keyframes floatName {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-  100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 img {
@@ -82,35 +78,41 @@ img {
   margin: 14px 0;
 }
 
-/* Buttons layout FIX */
-.buttons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  margin-top: 20px;
+/* Buttons area (KEY FIX) */
+.buttons-area {
   position: relative;
-  height: 80px; /* 👈 more vertical space */
+  height: 90px;
+  margin-top: 20px;
 }
 
-button {
+/* YES button – fixed position */
+#yesBtn {
+  position: absolute;
+  left: 0;
+  top: 15px;
   padding: 14px 28px;
   font-size: 18px;
   border-radius: 16px;
   border: none;
-  cursor: pointer;
-}
-
-#yesBtn {
   background: #4CAF50;
   color: white;
+  cursor: pointer;
+  width: 120px;
 }
 
+/* NO button – fixed size, movable */
 #noBtn {
+  position: absolute;
+  right: 0;
+  top: 15px;
+  padding: 14px 28px;
+  font-size: 18px;
+  border-radius: 16px;
+  border: none;
   background: #ff4d4d;
   color: white;
-  position: absolute;
-  right: 0; /* start position */
+  cursor: pointer;
+  width: 120px;   /* 🔒 LOCK SIZE */
 }
 
 .result {
@@ -133,7 +135,7 @@ button {
     <img id="penguin"
       src="https://media.giphy.com/media/8zYunr3Hg8XPq/giphy.gif" />
 
-    <div class="buttons">
+    <div class="buttons-area">
       <button id="yesBtn" onclick="sayYes()">Yes 💘</button>
       <button id="noBtn">No 🙈</button>
     </div>
@@ -145,9 +147,9 @@ button {
   </div>
 </div>
 
-<!-- Romantic Music -->
+<!-- Romantic Music (better + reliable) -->
 <audio id="bgMusic" loop preload="auto">
-  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_6c2d15f3ad.mp3" type="audio/mpeg">
+  <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_739b0fd4d2.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -155,9 +157,10 @@ const noBtn = document.getElementById("noBtn");
 const music = document.getElementById("bgMusic");
 let musicStarted = false;
 
-/* Start music */
+/* Start music only once */
 function startMusic() {
   if (!musicStarted) {
+    music.volume = 0.6;
     music.play().then(() => musicStarted = true).catch(()=>{});
   }
 }
@@ -167,33 +170,32 @@ function openModal() {
   startMusic();
 }
 
-/* Move NO button safely */
+/* Move NO button without resizing */
 function moveNo(e) {
-  if (e) e.preventDefault();
+  e.preventDefault();
+  startMusic();
 
-  const parent = document.querySelector(".buttons");
-  const maxX = parent.offsetWidth - noBtn.offsetWidth;
-  const maxY = parent.offsetHeight - noBtn.offsetHeight;
+  const area = document.querySelector(".buttons-area");
+  const maxX = area.offsetWidth - noBtn.offsetWidth;
+  const maxY = area.offsetHeight - noBtn.offsetHeight;
 
   noBtn.style.left = Math.random() * maxX + "px";
-  noBtn.style.top = Math.random() * maxY + "px";
-
-  startMusic();
+  noBtn.style.top  = Math.random() * maxY + "px";
 }
 
+/* Desktop + Mobile */
 noBtn.addEventListener("mouseenter", moveNo);
 noBtn.addEventListener("touchstart", moveNo);
 noBtn.addEventListener("click", moveNo);
 
-/* YES */
 function sayYes() {
   startMusic();
-  document.querySelector(".buttons").style.display = "none";
+  document.querySelector(".buttons-area").style.display = "none";
   document.getElementById("penguin").style.display = "none";
   document.getElementById("result").style.display = "block";
 }
 
-/* Hearts */
+/* Floating hearts */
 function createHeart() {
   const heart = document.createElement("div");
   heart.className = "heart";
@@ -203,8 +205,9 @@ function createHeart() {
   document.getElementById("hearts").appendChild(heart);
   setTimeout(() => heart.remove(), 8000);
 }
-setInterval(createHeart, 400);
+setInterval(createHeart, 450);
 
+/* Guarantee music on first interaction */
 document.body.addEventListener("click", startMusic, { once: true });
 </script>
 

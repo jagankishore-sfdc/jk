@@ -21,40 +21,17 @@ body {
 .heart {
   position: absolute;
   bottom: -20px;
-  font-size: 20px;
+  font-size: 22px;
   animation: floatUp linear infinite;
-  opacity: 0.7;
+  opacity: 0.75;
 }
 
 @keyframes floatUp {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-110vh) scale(1.5);
-    opacity: 0;
-  }
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-110vh) scale(1.4); opacity: 0; }
 }
 
-/* Fairy Name */
-.fairy-name {
-  font-size: 36px;
-  color: #ff2f92;
-  text-shadow:
-    0 0 8px #ff9fc9,
-    0 0 16px #ff6fae,
-    0 0 24px #ff2f92;
-  animation: floatName 3s ease-in-out infinite;
-}
-
-@keyframes floatName {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-  100% { transform: translateY(0); }
-}
-
-/* Button */
+/* Open Button */
 .open-btn {
   padding: 18px 32px;
   font-size: 22px;
@@ -70,10 +47,10 @@ body {
 .modal {
   position: fixed;
   inset: 0;
+  background: rgba(0,0,0,0.45);
   display: none;
   justify-content: center;
   align-items: center;
-  background: rgba(0,0,0,0.45);
 }
 
 .modal-content {
@@ -83,6 +60,23 @@ body {
   width: 90%;
   max-width: 360px;
   text-align: center;
+}
+
+/* Fairy Name */
+.fairy-name {
+  font-size: 36px;
+  color: #ff2f92;
+  text-shadow:
+    0 0 10px #ff9fc9,
+    0 0 20px #ff6fae,
+    0 0 30px #ff2f92;
+  animation: floatName 3s ease-in-out infinite;
+}
+
+@keyframes floatName {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
 }
 
 img {
@@ -127,7 +121,7 @@ button {
 
 <button class="open-btn" onclick="openModal()">💘 Click Me 💘</button>
 
-<!-- Floating hearts container -->
+<!-- Hearts -->
 <div id="hearts"></div>
 
 <div class="modal" id="modal">
@@ -136,7 +130,7 @@ button {
     <p>Will you be my Valentine? 💖</p>
 
     <img id="penguin"
-      src="https://media.giphy.com/media/8zYunr3Hg8XPq/giphy.gif"/>
+      src="https://media.giphy.com/media/8zYunr3Hg8XPq/giphy.gif" />
 
     <div class="buttons">
       <button id="yesBtn" onclick="sayYes()">Yes 💘</button>
@@ -144,48 +138,63 @@ button {
     </div>
 
     <div class="result" id="result">
-      <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif"/>
+      <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" />
       <h2>Best decision ever 💃🕺💖</h2>
     </div>
   </div>
 </div>
 
 <!-- Romantic Music -->
-<audio id="bgMusic" loop>
+<audio id="bgMusic" loop preload="auto">
   <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_6c2d15f3ad.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 const noBtn = document.getElementById("noBtn");
 const music = document.getElementById("bgMusic");
+let musicStarted = false;
 
+/* Start music safely (mobile friendly) */
+function startMusic() {
+  if (!musicStarted) {
+    music.play().then(() => {
+      musicStarted = true;
+    }).catch(() => {});
+  }
+}
+
+/* Open modal */
 function openModal() {
   document.getElementById("modal").style.display = "flex";
-  music.play().catch(()=>{});
+  startMusic();
 }
 
-/* Move NO button (desktop + mobile) */
-function moveNo() {
+/* Move NO button (hover + tap + click) */
+function moveNo(e) {
+  if (e) e.preventDefault();
+
   const x = Math.random() * 220;
   const y = Math.random() * 40;
+
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
+
+  startMusic();
 }
 
-noBtn.addEventListener("mouseover", moveNo);
-noBtn.addEventListener("touchstart", function(e) {
-  e.preventDefault();
-  moveNo();
-});
+noBtn.addEventListener("mouseenter", moveNo);   // desktop
+noBtn.addEventListener("touchstart", moveNo);   // mobile
+noBtn.addEventListener("click", moveNo);        // fallback
 
-/* YES click */
+/* YES */
 function sayYes() {
+  startMusic();
   document.querySelector(".buttons").style.display = "none";
   document.getElementById("penguin").style.display = "none";
   document.getElementById("result").style.display = "block";
 }
 
-/* Floating hearts generator */
+/* Floating hearts */
 function createHeart() {
   const heart = document.createElement("div");
   heart.className = "heart";
@@ -193,11 +202,13 @@ function createHeart() {
   heart.style.left = Math.random() * 100 + "vw";
   heart.style.animationDuration = (4 + Math.random() * 4) + "s";
   document.getElementById("hearts").appendChild(heart);
-
   setTimeout(() => heart.remove(), 8000);
 }
 
 setInterval(createHeart, 400);
+
+/* Extra: start music on any first tap */
+document.body.addEventListener("click", startMusic, { once: true });
 </script>
 
 </body>

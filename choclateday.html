@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Chocolate Day 🍫</title>
+
+<style>
+body{
+  margin:0;height:100vh;
+  background:linear-gradient(135deg,#6f4e37,#b08968);
+  display:flex;justify-content:center;align-items:center;
+  font-family:'Comic Sans MS',cursive;
+}
+.card{
+  background:#fff1e6;padding:30px;border-radius:25px;
+  text-align:center;
+}
+img{width:230px}
+</style>
+</head>
+
+<body onclick="playMusic()">
+
+<div class="card">
+  <h1>Happy Chocolate Day 🍫</h1>
+  <p>Life is sweeter with you 😘</p>
+  <img src="https://media.giphy.com/media/3oriO6qJiXajN0TyDu/giphy.gif">
+</div>
+
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/06/06/audio_5c6f90b1d1.mp3">
+</audio>
+
+<script>
+let m=false;
+function playMusic(){
+ if(!m){document.getElementById("music").play();m=true;}
+}
+</script>
+</body>
+</html>

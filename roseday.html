@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Rose Day 🌹</title>
+
+<style>
+body{
+  margin:0;height:100vh;
+  font-family:'Comic Sans MS',cursive;
+  background:linear-gradient(135deg,#c9184a,#ffb3c1);
+  display:flex;justify-content:center;align-items:center;
+  overflow:hidden;
+}
+.card{
+  background:white;padding:30px;border-radius:25px;
+  text-align:center;max-width:420px;
+}
+h1{color:#c9184a;}
+img{width:240px}
+.rose{
+  position:absolute;bottom:-20px;
+  font-size:26px;
+  animation:float 6s linear infinite;
+}
+@keyframes float{
+  to{transform:translateY(-120vh);opacity:0;}
+}
+</style>
+</head>
+
+<body onclick="startMusic()">
+
+<div class="card">
+  <h1>Happy Rose Day 🌹</h1>
+  <p>Every rose reminds me of you ❤️</p>
+  <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif">
+</div>
+
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/02/23/audio_8f7d84b2bb.mp3">
+</audio>
+
+<script>
+let started=false;
+function startMusic(){
+  if(!started){
+    document.getElementById("music").play();
+    started=true;
+  }
+}
+setInterval(()=>{
+  const r=document.createElement("div");
+  r.className="rose";r.innerHTML="🌹";
+  r.style.left=Math.random()*100+"vw";
+  document.body.appendChild(r);
+  setTimeout(()=>r.remove(),6000);
+},500);
+</script>
+</body>
+</html>

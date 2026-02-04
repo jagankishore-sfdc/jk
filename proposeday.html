@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Propose Day 💍</title>
+
+<style>
+body{
+  margin:0;height:100vh;
+  background:linear-gradient(135deg,#ff4d6d,#ffc8dd);
+  display:flex;justify-content:center;align-items:center;
+  font-family:'Comic Sans MS',cursive;
+}
+.card{
+  background:white;padding:30px;border-radius:25px;
+  text-align:center;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.05)}
+}
+img{width:240px}
+</style>
+</head>
+
+<body onclick="playMusic()">
+
+<div class="card">
+  <h1>Happy Propose Day 💍</h1>
+  <p>Will you always be mine? ❤️</p>
+  <img src="https://media.giphy.com/media/l2QDM9Jnim1YVILXa/giphy.gif">
+</div>
+
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/03/01/audio_43b9e2d2d6.mp3">
+</audio>
+
+<script>
+let p=false;
+function playMusic(){
+ if(!p){document.getElementById("music").play();p=true;}
+}
+</script>
+</body>
+</html>

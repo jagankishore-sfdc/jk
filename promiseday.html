@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Promise Day 🤝</title>
+
+<style>
+body{
+  margin:0;height:100vh;
+  background:linear-gradient(135deg,#cdb4db,#ffc8dd);
+  display:flex;justify-content:center;align-items:center;
+  font-family:'Comic Sans MS',cursive;
+}
+.card{
+  background:white;padding:30px;border-radius:25px;
+  text-align:center;
+  box-shadow:0 0 25px rgba(255,0,150,.3);
+}
+img{width:240px}
+</style>
+</head>
+
+<body onclick="playMusic()">
+
+<div class="card">
+  <h1>Happy Promise Day 🤝</h1>
+  <p>I promise — today, tomorrow, always 💞</p>
+  <img src="https://media.giphy.com/media/xT0xeMA62E1XIlup68/giphy.gif">
+</div>
+
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/audio/2023/03/02/audio_79ffb7b49c.mp3">
+</audio>
+
+<script>
+let pr=false;
+function playMusic(){
+ if(!pr){document.getElementById("music").play();pr=true;}
+}
+</script>
+</body>
+</html>

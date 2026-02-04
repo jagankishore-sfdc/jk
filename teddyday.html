@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Teddy Day 🧸</title>
+
+<style>
+body{
+  margin:0;height:100vh;
+  background:linear-gradient(135deg,#ffd166,#fff3b0);
+  display:flex;justify-content:center;align-items:center;
+  font-family:'Comic Sans MS',cursive;
+}
+.card{
+  background:white;padding:30px;border-radius:25px;
+  text-align:center;
+}
+img{width:240px}
+</style>
+</head>
+
+<body onclick="playMusic()">
+
+<div class="card">
+  <h1>Happy Teddy Day 🧸</h1>
+  <p>A hug just for you 🤗</p>
+  <img src="https://media.giphy.com/media/l0HlI1EyB8BObNk6k/giphy.gif">
+</div>
+
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/08/01/audio_9f64bb54d8.mp3">
+</audio>
+
+<script>
+let t=false;
+function playMusic(){
+ if(!t){document.getElementById("music").play();t=true;}
+}
+</script>
+</body>
+</html>

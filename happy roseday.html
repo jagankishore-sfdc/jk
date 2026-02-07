@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rose Day 🌹</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  font-family:'Comic Sans MS', cursive;
+  background:linear-gradient(135deg,#ff4d6d,#ffb3c1);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.card{
+  background:white;
+  padding:28px;
+  border-radius:25px;
+  width:90%;
+  max-width:420px;
+  text-align:center;
+  box-shadow:0 15px 30px rgba(0,0,0,0.2);
+}
+
+h2{
+  color:#c9184a;
+}
+
+input{
+  width:90%;
+  padding:12px;
+  font-size:16px;
+  border-radius:12px;
+  border:2px solid #ff8fa3;
+  outline:none;
+  margin-top:10px;
+}
+
+button{
+  margin-top:15px;
+  padding:12px 28px;
+  font-size:18px;
+  border-radius:14px;
+  border:none;
+  background:#ff4d6d;
+  color:white;
+  cursor:pointer;
+}
+
+img{
+  width:220px;
+  margin-top:15px;
+}
+
+/* Animated text */
+.success-text{
+  font-size:26px;
+  color:#e6005c;
+  margin-top:10px;
+  animation:glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow{
+  from{text-shadow:0 0 5px #ff8fa3;}
+  to{text-shadow:0 0 20px #ff2f92;}
+}
+
+.hint{
+  font-size:18px;
+  margin-top:10px;
+  color:#555;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>💭 Question for you</h2>
+  <p>What’s today special?</p>
+
+  <input type="text" id="answer" placeholder="Type your answer here..." />
+
+  <br>
+  <button onclick="checkAnswer()">Submit</button>
+
+  <div id="result"></div>
+</div>
+
+<script>
+const hints = [
+  "🤔 Think twice and answer",
+  "🌹 Hint: It comes with flowers",
+  "❤️ It starts with R and ends with Day",
+  "🧠 Come on, you know this!"
+];
+
+function checkAnswer(){
+  const value = document.getElementById("answer").value.toLowerCase().trim();
+  const result = document.getElementById("result");
+
+  if(value.includes("rose day")){
+    result.innerHTML = `
+      <img src="https://media.tenor.com/ZhNxfL0GmoMAAAAi/mocha-bear-hearts.gif">
+      <div class="success-text">🌹 Happy Rose Day Milkyyy 🌹</div>
+    `;
+  } else {
+    const randomHint = hints[Math.floor(Math.random()*hints.length)];
+    result.innerHTML = `
+      <img src="https://media.tenor.com/ZJ0t7DP3FjMAAAAi/milk-and-mocha-gif-mocha-makeing-love.gif">
+      <div class="hint">${randomHint}</div>
+    `;
+  }
+}
+</script>
+
+</body>
+</html>

@@ -65,7 +65,7 @@ body{
   border-bottom:110px solid #ff8fab;
 }
 
-/* Content after open */
+/* Final content */
 .content{
   position:absolute;
   top:50%;
@@ -93,12 +93,12 @@ body{
   position:absolute;
   font-size:20px;
 }
-.heart.h1{top:-10px;left:-10px;}
-.heart.h2{top:-10px;right:-10px;}
-.heart.h3{bottom:-10px;left:20px;}
-.heart.h4{bottom:-10px;right:20px;}
+.h1{top:-10px;left:-10px;}
+.h2{top:-10px;right:-10px;}
+.h3{bottom:-10px;left:20px;}
+.h4{bottom:-10px;right:20px;}
 
-/* Letter text */
+/* Text */
 h1{
   text-align:center;
   color:#e6005c;
@@ -112,14 +112,26 @@ h1{
   text-align:center;
 }
 
-/* Side Image */
+/* Side main image */
 .side-image img{
   width:160px;
   animation:float 3s ease-in-out infinite;
 }
+
+/* Floating GIFs around */
+.floating-gif{
+  position:absolute;
+  width:90px;
+  animation:float 4s ease-in-out infinite;
+}
+.gif1{ top:-60px; left:20px; }
+.gif2{ top:-60px; right:20px; }
+.gif3{ bottom:-70px; left:0; }
+.gif4{ bottom:-70px; right:0; }
+
 @keyframes float{
   0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-8px);}
+  50%{transform:translateY(-12px);}
 }
 
 /* Open state */
@@ -132,6 +144,17 @@ h1{
 .scene.open .content{
   opacity:1;
   transform:translate(-50%,-50%) scale(1);
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px){
+  .content{
+    flex-direction:column;
+    gap:18px;
+  }
+  .floating-gif{
+    width:70px;
+  }
 }
 </style>
 </head>
@@ -146,7 +169,17 @@ h1{
 
   <!-- Final centered content -->
   <div class="content">
-    
+
+    <!-- Floating GIFs -->
+    <img class="floating-gif gif1"
+      src="https://media1.tenor.com/m/2BrMVhEIsgIAAAAC/mocha-bear-kiss-bear-kiss.gif">
+    <img class="floating-gif gif2"
+      src="https://media1.tenor.com/m/CB1Klob8WS8AAAAC/kristigocouple2024.gif">
+    <img class="floating-gif gif3"
+      src="https://media.tenor.com/gUiu1zyxfzYAAAAm/bear-kiss-bear-kisses.webp">
+    <img class="floating-gif gif4"
+      src="https://media.tenor.com/wpnr4STeVPwAAAAm/dudu-flow-kiss-cute-dudu.webp">
+
     <!-- Letter -->
     <div class="letter">
       <div class="heart h1">💖</div>
@@ -177,10 +210,11 @@ h1{
       </div>
     </div>
 
-    <!-- Side Image -->
+    <!-- Side image -->
     <div class="side-image">
-      <img src="https://media.tenor.com/ebA-shpamScAAAAi/milk-and-mocha.gif"
-           alt="Milk and Mocha love">
+      <img
+        src="https://media.tenor.com/ebA-shpamScAAAAi/milk-and-mocha.gif"
+        alt="Milk and Mocha love">
     </div>
 
   </div>

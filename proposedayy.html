@@ -14,103 +14,96 @@ body{
   justify-content:center;
   align-items:center;
   font-family:"Georgia",serif;
+  overflow:hidden;
 }
 
-/* Container */
-.envelope-wrapper{
+/* Wrapper */
+.scene{
   position:relative;
-  width:340px;
-  height:240px;
-  cursor:pointer;
+  width:360px;
+  height:420px;
 }
 
-/* Envelope base */
+/* Envelope */
 .envelope{
   position:absolute;
-  bottom:0;
-  width:100%;
+  bottom:120px;
+  left:50%;
+  transform:translateX(-50%);
+  width:320px;
   height:200px;
   background:#fff;
-  border-radius:0 0 16px 16px;
-  box-shadow:0 25px 45px rgba(0,0,0,0.25);
+  border-radius:0 0 18px 18px;
+  box-shadow:0 20px 35px rgba(0,0,0,0.25);
+  transition:opacity 0.6s ease;
   z-index:2;
 }
 
-/* Envelope flap */
-.flap{
+/* Flap */
+.envelope::before{
+  content:"";
   position:absolute;
-  top:40px;
+  top:-110px;
   left:0;
   width:0;
   height:0;
-  border-left:170px solid transparent;
-  border-right:170px solid transparent;
-  border-top:110px solid #ff8fab;
-  transform-origin:top;
-  transition:transform 1s ease;
-  z-index:3;
+  border-left:160px solid transparent;
+  border-right:160px solid transparent;
+  border-bottom:110px solid #ff8fab;
 }
 
 /* Letter */
 .letter{
   position:absolute;
-  bottom:25px;
-  left:20px;
+  bottom:140px;
+  left:50%;
+  transform:translateX(-50%) translateY(120px);
   width:300px;
-  height:0;
   background:#fffdf8;
-  border-radius:12px;
-  box-shadow:0 15px 30px rgba(0,0,0,0.2);
-  overflow:hidden;
-  padding:0 20px;
-  transition:height 1.3s ease, transform 1.3s ease;
-  z-index:1;
+  border-radius:16px;
+  padding:24px;
+  box-shadow:0 18px 40px rgba(0,0,0,0.25);
+  opacity:0;
+  transition:
+    transform 1.2s ease,
+    opacity 1.2s ease;
+  z-index:3;
 }
 
 /* Open state */
-.envelope-wrapper.open .flap{
-  transform:rotateX(180deg);
-}
-
-.envelope-wrapper.open .letter{
-  height:380px;
-  transform:translateY(-150px);
-}
-
-/* Letter content */
-.letter-content{
-  opacity:0;
-  transition:opacity 1s ease;
-  padding-top:20px;
-}
-
-.envelope-wrapper.open .letter-content{
+.scene.open .letter{
+  transform:translateX(-50%) translateY(-40px);
   opacity:1;
-  transition-delay:0.6s;
 }
 
+.scene.open .envelope{
+  opacity:0;
+  pointer-events:none;
+}
+
+/* Letter text */
 h1{
   text-align:center;
   color:#e6005c;
   font-size:22px;
-  margin:10px 0;
+  margin-bottom:14px;
 }
 
 .poem{
   font-size:16px;
-  line-height:1.7;
+  line-height:1.75;
   color:#444;
 }
 
-/* Hint text */
+/* Hint */
 .hint{
   position:absolute;
-  top:-45px;
+  bottom:40px;
   width:100%;
   text-align:center;
   color:#b3005e;
   font-size:16px;
-  animation:pulse 1.5s infinite;
+  animation:pulse 1.4s infinite;
 }
 
 @keyframes pulse{
@@ -122,42 +115,41 @@ h1{
 
 <body>
 
-<div class="envelope-wrapper" onclick="openEnvelope()">
-  <div class="hint">💌 Tap to open</div>
+<div class="scene" onclick="openLetter()">
+  <div class="hint">💌 Tap the envelope</div>
 
+  <!-- Envelope -->
+  <div class="envelope"></div>
+
+  <!-- Letter -->
   <div class="letter">
-    <div class="letter-content">
-      <h1>To My Princess 👑</h1>
-      <div class="poem">
-        From the moment you smiled at me,<br>
-        the world softened its edges.<br><br>
+    <h1>To My Princess 👑</h1>
+    <div class="poem">
+      From the moment you smiled at me,<br>
+      the world softened its edges.<br><br>
 
-        Every ordinary day learned poetry,<br>
-        every silence learned your name.<br><br>
+      Every ordinary day learned poetry,<br>
+      every silence learned your name.<br><br>
 
-        You are the calm in my chaos,<br>
-        the warmth I never knew I missed,<br>
-        the dream my heart keeps choosing—<br>
-        again and again.<br><br>
+      You are the calm in my chaos,<br>
+      the warmth I never knew I missed,<br>
+      the dream my heart keeps choosing—<br>
+      again and again.<br><br>
 
-        If love had a face, it would be yours.<br>
-        If forever had a meaning,<br>
-        it would be us.<br><br>
+      If love had a face, it would be yours.<br>
+      If forever had a meaning,<br>
+      it would be us.<br><br>
 
-        Today, tomorrow, and every lifetime after,<br>
-        I choose you…<br>
-        my princess, my always 💖
-      </div>
+      Today, tomorrow, and every lifetime after,<br>
+      I choose you…<br>
+      my princess, my always 💖
     </div>
   </div>
-
-  <div class="flap"></div>
-  <div class="envelope"></div>
 </div>
 
 <script>
-function openEnvelope(){
-  document.querySelector(".envelope-wrapper").classList.add("open");
+function openLetter(){
+  document.querySelector(".scene").classList.add("open");
 }
 </script>
 

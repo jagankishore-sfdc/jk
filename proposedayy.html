@@ -42,96 +42,103 @@ body{
 /* Envelope */
 .envelope{
   position:absolute;
-  bottom:120px;
+  bottom:140px;
   left:50%;
   transform:translateX(-50%);
-  width:320px;
-  height:200px;
+  width:340px;
+  height:210px;
   background:#fff;
-  border-radius:0 0 18px 18px;
+  border-radius:0 0 20px 20px;
   box-shadow:0 20px 35px rgba(0,0,0,0.25);
   cursor:pointer;
   transition:opacity 0.6s ease;
 }
+
+/* Valentine mark on envelope */
 .envelope::before{
   content:"";
   position:absolute;
-  top:-110px;
+  top:-115px;
   left:0;
   width:0;
   height:0;
-  border-left:160px solid transparent;
-  border-right:160px solid transparent;
-  border-bottom:110px solid #ff8fab;
+  border-left:170px solid transparent;
+  border-right:170px solid transparent;
+  border-bottom:115px solid #ff8fab;
 }
 
-/* Final content */
+.envelope::after{
+  content:"💘";
+  position:absolute;
+  top:70px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:36px;
+}
+
+/* Final centered layout */
 .content{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%) scale(0.9);
-  display:flex;
-  gap:24px;
+  display:grid;
+  grid-template-columns: auto 1fr auto;
+  gap:30px;
   align-items:center;
   opacity:0;
   transition:opacity 1s ease, transform 1s ease;
 }
 
+/* Side GIF columns */
+.side-gifs{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+
+.side-gifs img{
+  width:140px;          /* BIGGER */
+  animation:float 3s ease-in-out infinite;
+}
+
 /* Letter */
 .letter{
   position:relative;
-  width:320px;
+  width:360px;
   background:#fffdf8;
-  border-radius:18px;
-  padding:28px 26px;
+  border-radius:22px;
+  padding:30px 28px;
   box-shadow:0 20px 40px rgba(0,0,0,0.25);
+  text-align:center;
 }
 
 /* Heart stickers */
 .heart{
   position:absolute;
-  font-size:20px;
+  font-size:22px;
 }
-.h1{top:-10px;left:-10px;}
-.h2{top:-10px;right:-10px;}
-.h3{bottom:-10px;left:20px;}
-.h4{bottom:-10px;right:20px;}
+.h1{top:-12px;left:-12px;}
+.h2{top:-12px;right:-12px;}
+.h3{bottom:-12px;left:30px;}
+.h4{bottom:-12px;right:30px;}
 
 /* Text */
 h1{
-  text-align:center;
   color:#e6005c;
-  font-size:22px;
-  margin-bottom:14px;
+  font-size:24px;
+  margin-bottom:16px;
 }
 .poem{
   font-size:16px;
   line-height:1.75;
   color:#444;
-  text-align:center;
 }
 
-/* Side main image */
-.side-image img{
-  width:160px;
-  animation:float 3s ease-in-out infinite;
-}
-
-/* Floating GIFs around */
-.floating-gif{
-  position:absolute;
-  width:90px;
-  animation:float 4s ease-in-out infinite;
-}
-.gif1{ top:-60px; left:20px; }
-.gif2{ top:-60px; right:20px; }
-.gif3{ bottom:-70px; left:0; }
-.gif4{ bottom:-70px; right:0; }
-
+/* Floating motion */
 @keyframes float{
   0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-12px);}
+  50%{transform:translateY(-10px);}
 }
 
 /* Open state */
@@ -146,14 +153,14 @@ h1{
   transform:translate(-50%,-50%) scale(1);
 }
 
-/* Mobile adjustments */
-@media (max-width: 600px){
+/* Mobile */
+@media (max-width: 900px){
   .content{
-    flex-direction:column;
-    gap:18px;
+    grid-template-columns: 1fr;
   }
-  .floating-gif{
-    width:70px;
+  .side-gifs{
+    flex-direction:row;
+    justify-content:center;
   }
 }
 </style>
@@ -167,18 +174,14 @@ h1{
 
   <div class="envelope"></div>
 
-  <!-- Final centered content -->
+  <!-- Final Content -->
   <div class="content">
 
-    <!-- Floating GIFs -->
-    <img class="floating-gif gif1"
-      src="https://media1.tenor.com/m/2BrMVhEIsgIAAAAC/mocha-bear-kiss-bear-kiss.gif">
-    <img class="floating-gif gif2"
-      src="https://media1.tenor.com/m/CB1Klob8WS8AAAAC/kristigocouple2024.gif">
-    <img class="floating-gif gif3"
-      src="https://media.tenor.com/gUiu1zyxfzYAAAAm/bear-kiss-bear-kisses.webp">
-    <img class="floating-gif gif4"
-      src="https://media.tenor.com/wpnr4STeVPwAAAAm/dudu-flow-kiss-cute-dudu.webp">
+    <!-- Left GIFs -->
+    <div class="side-gifs">
+      <img src="https://media1.tenor.com/m/2BrMVhEIsgIAAAAC/mocha-bear-kiss-bear-kiss.gif">
+      <img src="https://media.tenor.com/gUiu1zyxfzYAAAAm/bear-kiss-bear-kisses.webp">
+    </div>
 
     <!-- Letter -->
     <div class="letter">
@@ -210,11 +213,10 @@ h1{
       </div>
     </div>
 
-    <!-- Side image -->
-    <div class="side-image">
-      <img
-        src="https://media.tenor.com/ebA-shpamScAAAAi/milk-and-mocha.gif"
-        alt="Milk and Mocha love">
+    <!-- Right GIFs -->
+    <div class="side-gifs">
+      <img src="https://media1.tenor.com/m/CB1Klob8WS8AAAAC/kristigocouple2024.gif">
+      <img src="https://media.tenor.com/wpnr4STeVPwAAAAm/dudu-flow-kiss-cute-dudu.webp">
     </div>
 
   </div>

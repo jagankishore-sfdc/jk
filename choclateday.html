@@ -1,42 +1,190 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chocolate Day 🍫</title>
 
 <style>
 body{
-  margin:0;height:100vh;
+  margin:0;
+  height:100vh;
+  font-family:"Georgia",serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
   background:linear-gradient(135deg,#6f4e37,#b08968);
-  display:flex;justify-content:center;align-items:center;
-  font-family:'Comic Sans MS',cursive;
+  transition:background 1s ease;
 }
-.card{
-  background:#fff1e6;padding:30px;border-radius:25px;
+
+/* Question Card */
+.question-card{
+  background:#fff7f0;
+  padding:32px;
+  border-radius:24px;
+  width:90%;
+  max-width:420px;
   text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,0.25);
+  transition:opacity .6s ease, transform .6s ease;
 }
-img{width:230px}
+
+.question-card.hide{
+  opacity:0;
+  transform:scale(0.9);
+  pointer-events:none;
+}
+
+h1{
+  color:#6f1d1b;
+  font-size:24px;
+  margin-bottom:14px;
+}
+
+p{
+  font-size:18px;
+  color:#444;
+  line-height:1.6;
+}
+
+input{
+  margin-top:16px;
+  width:90%;
+  padding:12px;
+  font-size:16px;
+  border-radius:12px;
+  border:2px solid #b08968;
+  outline:none;
+}
+
+button{
+  margin-top:20px;
+  padding:12px 30px;
+  font-size:18px;
+  border-radius:16px;
+  border:none;
+  background:#6f1d1b;
+  color:white;
+  cursor:pointer;
+}
+
+/* Wish Section */
+.wish{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 1s ease;
+}
+
+.wish.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* Wish Card */
+.wish-card{
+  background:white;
+  padding:30px;
+  border-radius:26px;
+  text-align:center;
+  box-shadow:0 25px 45px rgba(0,0,0,0.3);
+}
+
+.wish-card h1{
+  color:#6f1d1b;
+  font-size:26px;
+  margin-bottom:16px;
+}
+
+.wish-card img{
+  width:240px;
+  display:block;
+  margin:auto;
+}
+
+/* Hearts */
+.heart{
+  position:absolute;
+  bottom:-20px;
+  font-size:22px;
+  animation:floatUp 6s linear infinite;
+  opacity:0.7;
+}
+
+@keyframes floatUp{
+  from{transform:translateY(0); opacity:1;}
+  to{transform:translateY(-120vh); opacity:0;}
+}
 </style>
 </head>
 
-<body onclick="playMusic()">
+<body>
 
-<div class="card">
-  <h1>Happy Chocolate Day 🍫</h1>
-  <p>Life is sweeter with you 😘</p>
-  <img src="https://media.giphy.com/media/3oriO6qJiXajN0TyDu/giphy.gif">
+<!-- QUESTION -->
+<div class="question-card" id="questionCard">
+  <h1>🍫 A Sweet Question</h1>
+  <p>
+    If love had a flavour today…<br>
+    would it be sweet like chocolate,<br>
+    or sweeter because it’s with me? 💖
+  </p>
+
+  <input type="text" placeholder="Your answer here…" />
+
+  <br>
+  <button onclick="showWish()">Continue 💕</button>
 </div>
 
-<audio id="music" loop>
-  <source src="https://cdn.pixabay.com/audio/2022/06/06/audio_5c6f90b1d1.mp3">
-</audio>
+<!-- WISH -->
+<div class="wish" id="wishSection">
+  <div class="wish-card">
+    <h1>🍫 Happy Chocolate Day 💖</h1>
+
+    <img
+      src="https://media1.tenor.com/m/C3tlPigi2t0AAAAC/mocha-and-milk-chocolate.gif"
+      alt="Chocolate Day Love">
+  </div>
+</div>
 
 <script>
-let m=false;
-function playMusic(){
- if(!m){document.getElementById("music").play();m=true;}
+function showWish(){
+  // Hide question
+  document.getElementById("questionCard").classList.add("hide");
+
+  // Change background to rainbow
+  document.body.style.background = `
+    linear-gradient(
+      135deg,
+      #ff9a9e,
+      #fad0c4,
+      #fbc2eb,
+      #a6c1ee
+    )`;
+
+  // Show wish
+  setTimeout(()=>{
+    document.getElementById("wishSection").classList.add("show");
+    startHearts();
+  },600);
+}
+
+/* Floating hearts */
+function startHearts(){
+  setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="💖";
+    h.style.left=Math.random()*100+"vw";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+  },400);
 }
 </script>
+
 </body>
 </html>

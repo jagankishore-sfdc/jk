@@ -36,24 +36,12 @@ body{
 .heart{
   position:absolute;
   bottom:-20px;
-  font-size:24px;
+  font-size:26px;
   animation:floatUp 6s linear infinite;
   opacity:0.75;
 }
 @keyframes floatUp{
   to{transform:translateY(-120vh); opacity:0;}
-}
-
-/* Sparkles */
-.sparkle{
-  position:absolute;
-  font-size:14px;
-  color:#fff;
-  animation:sparkle 2s ease-out forwards;
-}
-@keyframes sparkle{
-  0%{transform:scale(0);opacity:1;}
-  100%{transform:scale(1.8);opacity:0;}
 }
 
 /* Quiz Card */
@@ -66,11 +54,7 @@ body{
   text-align:center;
   box-shadow:0 25px 45px rgba(0,0,0,0.25);
 }
-.hide{
-  opacity:0;
-  transform:scale(0.9);
-  pointer-events:none;
-}
+.hide{display:none;}
 
 /* Options */
 .option{
@@ -81,18 +65,64 @@ body{
   cursor:pointer;
   font-size:17px;
 }
-.option:hover{background:#ffd6e8;}
 
-/* Love meter */
-.love-meter{display:none;margin-top:18px;}
-.meter-bar{height:14px;background:#f1d1dc;border-radius:10px;}
-.meter-fill{
-  height:100%;width:0%;
-  background:linear-gradient(90deg,#ff4d6d,#ff8fab);
-  transition:.6s;
+/* Wish Section */
+.wish{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 1s ease;
+}
+.wish.show{
+  opacity:1;
+  pointer-events:auto;
 }
 
-/* Button */
+/* Wish Layout */
+.wish-layout{
+  display:flex;
+  gap:24px;
+  align-items:center;
+}
+
+/* Heart beside */
+.big-heart{
+  font-size:120px;
+  animation:beat 1.5s infinite;
+}
+@keyframes beat{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.15);}
+}
+
+/* Wish Card */
+.wish-card{
+  background:white;
+  padding:32px;
+  border-radius:30px;
+  text-align:center;
+  box-shadow:0 30px 55px rgba(0,0,0,0.3);
+}
+.wish-card img{
+  width:240px;
+  margin-top:12px;
+}
+
+/* Timed GIF */
+.timed-gif{
+  width:150px;
+  opacity:1;
+  transition:opacity 1s ease;
+}
+.timed-gif.hide{
+  opacity:0;
+}
+
+/* Buttons */
 button{
   margin-top:20px;
   padding:12px 34px;
@@ -103,53 +133,6 @@ button{
   color:white;
   cursor:pointer;
 }
-
-/* Wish Section */
-.wish{
-  position:absolute;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity 1s ease;
-}
-.wish.show{opacity:1;pointer-events:auto;}
-
-.wish-card{
-  background:white;
-  padding:32px;
-  border-radius:30px;
-  text-align:center;
-  box-shadow:0 30px 55px rgba(0,0,0,0.3);
-}
-
-/* Big heart */
-.big-heart{
-  position:absolute;
-  font-size:120px;
-  animation:beat 1.5s infinite;
-  opacity:.85;
-}
-@keyframes beat{
-  0%,100%{transform:scale(1);}
-  50%{transform:scale(1.15);}
-}
-
-/* Wish images */
-.wish-img{
-  width:240px;
-  margin-top:12px;
-}
-.side-imgs{
-  display:flex;
-  gap:16px;
-  justify-content:center;
-  margin-top:14px;
-}
-.side-imgs img{width:140px;}
 </style>
 </head>
 
@@ -160,88 +143,70 @@ button{
   <h2>🍫 Chocolate Day Quiz</h2>
   <p id="question"></p>
   <div id="options"></div>
-
-  <div class="love-meter" id="loveMeter">
-    <p id="meterText"></p>
-    <div class="meter-bar">
-      <div class="meter-fill" id="meterFill"></div>
-    </div>
-  </div>
-
-  <button id="nextBtn" onclick="nextQuestion()" disabled>Next 💕</button>
+  <button onclick="nextQuestion()" id="nextBtn" disabled>Next 💕</button>
 </div>
 
 <!-- WISH -->
 <div class="wish" id="wishSection">
-  <div class="big-heart">❤️</div>
+  <div class="wish-layout">
 
-  <div class="wish-card">
-    <h1>🍫 Happy Chocolate Day 💖</h1>
+    <!-- ❤️ Heart beside -->
+    <div class="big-heart">❤️</div>
 
-    <img class="wish-img"
-      src="https://media1.tenor.com/m/C3tlPigi2t0AAAAC/mocha-and-milk-chocolate.gif">
-
-    <div class="side-imgs">
-      <img src="https://media1.tenor.com/m/47C636uTBtkAAAAC/sending-love-sending-you-love.gif">
-      <img src="https://gifdb.com/images/high/love-heart-breathing-bfacav3ixopbyjz1.gif">
+    <!-- 🎉 Wish Card -->
+    <div class="wish-card">
+      <h1>🍫 Happy Chocolate Day 💖</h1>
+      <img src="https://media1.tenor.com/m/C3tlPigi2t0AAAAC/mocha-and-milk-chocolate.gif">
     </div>
+
+    <!-- 🎁 Timed GIF -->
+    <img id="timedGif"
+      class="timed-gif"
+      src="https://media1.tenor.com/m/47C636uTBtkAAAAC/sending-love-sending-you-love.gif">
   </div>
 </div>
 
 <script>
-/* Questions */
-const questions=[
- {q:"🍫 Which chocolate matches our love?",o:[
-  {t:"Dark ❤️",l:90,e:"😍"},
-  {t:"Milk 💕",l:80,e:"😊"},
-  {t:"White 🤍",l:70,e:"🤍"}]},
- {q:"💖 What makes today sweeter?",o:[
-  {t:"Chocolate 🍫",l:60,e:"🙂"},
-  {t:"Surprise 🎁",l:65,e:"😊"},
-  {t:"You 😘",l:95,e:"💖"}]},
- {q:"🌈 If I gift you chocolate?",o:[
-  {t:"Smile 😊",l:75,e:"😊"},
-  {t:"Hug 🤗",l:85,e:"🤗"},
-  {t:"Ask more 😘",l:100,e:"❤️"}]}
+/* Simple MCQ */
+const qData=[
+ {q:"Which chocolate fits us?",o:["Dark ❤️","Milk 💕","White 🤍"]},
+ {q:"What makes today sweeter?",o:["Chocolate","Smile","You 😘"]},
+ {q:"If I gift you chocolate?",o:["Smile","Hug","Ask more 😘"]}
 ];
+let i=0;
 
-let i=0,answered=false;
 const q=document.getElementById("question"),
 opt=document.getElementById("options"),
-meter=document.getElementById("loveMeter"),
-fill=document.getElementById("meterFill"),
-text=document.getElementById("meterText"),
 btn=document.getElementById("nextBtn");
 
-function loadQ(){
-  answered=false;btn.disabled=true;
-  meter.style.display="none";fill.style.width="0%";
-  q.innerText=questions[i].q;opt.innerHTML="";
-  questions[i].o.forEach(x=>{
+function load(){
+  btn.disabled=true;
+  q.innerText=qData[i].q;
+  opt.innerHTML="";
+  qData[i].o.forEach(t=>{
     const d=document.createElement("div");
-    d.className="option";d.innerText=x.t;
-    d.onclick=()=>pick(d,x);opt.appendChild(d);
+    d.className="option";
+    d.innerText=t;
+    d.onclick=()=>{btn.disabled=false;};
+    opt.appendChild(d);
   });
 }
-function pick(el,x){
-  document.querySelectorAll(".option").forEach(o=>o.style.background="#ffe8f0");
-  el.style.background="#ffb3c6";
-  meter.style.display="block";
-  text.innerText=`${x.e} Love between us: ${x.l}%`;
-  fill.style.width=x.l+"%";
-  answered=true;btn.disabled=false;
-}
 function nextQuestion(){
-  if(!answered)return;
-  i++;i<questions.length?loadQ():showWish();
+  i++;
+  i<qData.length?load():showWish();
 }
 function showWish(){
-  document.getElementById("quizCard").style.display="none";
-  document.getElementById("wishSection").classList.add("show");
-  setInterval(()=>sparkle(),250);
+  document.getElementById("quizCard").classList.add("hide");
+  const w=document.getElementById("wishSection");
+  w.classList.add("show");
+
+  /* Hide timed gif after 5 seconds */
+  setTimeout(()=>{
+    document.getElementById("timedGif").classList.add("hide");
+  },5000);
 }
 
-/* Hearts */
+/* Floating hearts */
 setInterval(()=>{
   const h=document.createElement("div");
   h.className="heart";h.innerHTML="💖";
@@ -250,20 +215,7 @@ setInterval(()=>{
   setTimeout(()=>h.remove(),6000);
 },400);
 
-/* Sparkles */
-function sparkle(){
-  const s=document.createElement("div");
-  s.className="sparkle";s.innerHTML="✨";
-  s.style.left=50+Math.random()*200-100+"px";
-  s.style.top=50+Math.random()*200-100+"px";
-  s.style.position="absolute";
-  s.style.left=Math.random()*100+"vw";
-  s.style.top=Math.random()*100+"vh";
-  document.body.appendChild(s);
-  setTimeout(()=>s.remove(),2000);
-}
-
-loadQ();
+load();
 </script>
 
 </body>

@@ -50,13 +50,12 @@ body{
   padding:32px;
   border-radius:26px;
   width:90%;
-  max-width:460px;
+  max-width:480px;
   text-align:center;
   box-shadow:0 25px 45px rgba(0,0,0,0.25);
   transition:opacity .6s ease, transform .6s ease;
 }
 
-/* Hide */
 .hide{
   opacity:0;
   transform:scale(0.9);
@@ -67,7 +66,7 @@ body{
 h1{
   font-size:24px;
   color:#6f1d1b;
-  margin-bottom:16px;
+  margin-bottom:12px;
 }
 p{
   font-size:18px;
@@ -87,6 +86,30 @@ p{
 }
 .option:hover{
   background:#ffd6e8;
+}
+
+/* Love Meter */
+.love-meter{
+  margin-top:18px;
+  display:none;
+}
+.meter-text{
+  font-size:16px;
+  margin-bottom:6px;
+}
+.meter-bar{
+  width:100%;
+  height:14px;
+  background:#f1d1dc;
+  border-radius:10px;
+  overflow:hidden;
+}
+.meter-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#ff4d6d,#ff8fab);
+  border-radius:10px;
+  transition:width .6s ease;
 }
 
 /* Button */
@@ -115,7 +138,6 @@ button{
 .wish.show{
   opacity:1;
 }
-
 .wish-card{
   background:white;
   padding:34px;
@@ -135,17 +157,25 @@ button{
 
 <body>
 
-<!-- 💖 MCQ Card -->
+<!-- 💖 QUIZ -->
 <div class="card" id="quizCard">
-  <h1 id="qTitle">🍫 Chocolate Day Quiz</h1>
+  <h1>🍫 Chocolate Day Quiz</h1>
   <p id="question"></p>
 
   <div id="options"></div>
 
+  <!-- ❤️ Love Indicator -->
+  <div class="love-meter" id="loveMeter">
+    <div class="meter-text" id="meterText"></div>
+    <div class="meter-bar">
+      <div class="meter-fill" id="meterFill"></div>
+    </div>
+  </div>
+
   <button id="nextBtn" onclick="nextQuestion()" disabled>Next 💕</button>
 </div>
 
-<!-- 🎉 Wish -->
+<!-- 🎉 WISH -->
 <div class="wish" id="wishSection">
   <div class="wish-card">
     <h1>🍫 Happy Chocolate Day 💖</h1>
@@ -154,53 +184,76 @@ button{
 </div>
 
 <script>
-/* Questions */
+/* Questions + Love Scores */
 const questions = [
   {
     q: "🍫 Which chocolate matches our love best?",
-    options: ["Dark & deep ❤️", "Milk & sweet 💕", "White & dreamy 🤍"]
+    options: [
+      { text:"Dark & deep ❤️", love:90, emoji:"😍" },
+      { text:"Milk & sweet 💕", love:80, emoji:"😊" },
+      { text:"White & dreamy 🤍", love:70, emoji:"🤍" }
+    ]
   },
   {
     q: "💖 What makes chocolate sweeter today?",
-    options: ["The cocoa 🍫", "The wrapper 🎁", "You thinking of me 😉"]
+    options: [
+      { text:"The cocoa 🍫", love:60, emoji:"🙂" },
+      { text:"The wrapper 🎁", love:65, emoji:"😊" },
+      { text:"You thinking of me 😉", love:95, emoji:"😘" }
+    ]
   },
   {
     q: "🌈 If I gift you chocolate today, you will…",
-    options: ["Smile softly 😊", "Hug me tight 🤗", "Ask for more 😘"]
+    options: [
+      { text:"Smile softly 😊", love:75, emoji:"😊" },
+      { text:"Hug me tight 🤗", love:85, emoji:"🤗" },
+      { text:"Ask for more 😘", love:100, emoji:"💖" }
+    ]
   }
 ];
 
-let index = 0;
-let answered = false;
+let index=0;
+let answered=false;
 
-const questionEl = document.getElementById("question");
-const optionsEl = document.getElementById("options");
-const nextBtn = document.getElementById("nextBtn");
+const questionEl=document.getElementById("question");
+const optionsEl=document.getElementById("options");
+const nextBtn=document.getElementById("nextBtn");
+const loveMeter=document.getElementById("loveMeter");
+const meterFill=document.getElementById("meterFill");
+const meterText=document.getElementById("meterText");
 
 /* Load question */
 function loadQuestion(){
-  answered = false;
-  nextBtn.disabled = true;
-  questionEl.innerText = questions[index].q;
-  optionsEl.innerHTML = "";
+  answered=false;
+  nextBtn.disabled=true;
+  loveMeter.style.display="none";
+  meterFill.style.width="0%";
+
+  questionEl.innerText=questions[index].q;
+  optionsEl.innerHTML="";
 
   questions[index].options.forEach(opt=>{
-    const div = document.createElement("div");
-    div.className = "option";
-    div.innerText = opt;
-    div.onclick = () => selectOption(div);
+    const div=document.createElement("div");
+    div.className="option";
+    div.innerText=opt.text;
+    div.onclick=()=>selectOption(div,opt);
     optionsEl.appendChild(div);
   });
 }
 
-/* Select */
-function selectOption(el){
+/* Select option */
+function selectOption(el,opt){
   document.querySelectorAll(".option").forEach(o=>{
-    o.style.background = "#ffe8f0";
+    o.style.background="#ffe8f0";
   });
-  el.style.background = "#ffb3c6";
-  answered = true;
-  nextBtn.disabled = false;
+  el.style.background="#ffb3c6";
+
+  loveMeter.style.display="block";
+  meterText.innerText=`${opt.emoji} Love between us: ${opt.love}%`;
+  meterFill.style.width=opt.love+"%";
+
+  answered=true;
+  nextBtn.disabled=false;
 }
 
 /* Next */
@@ -208,9 +261,9 @@ function nextQuestion(){
   if(!answered) return;
 
   index++;
-  if(index < questions.length){
+  if(index<questions.length){
     loadQuestion();
-  } else {
+  }else{
     showWish();
   }
 }

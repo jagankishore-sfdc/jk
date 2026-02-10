@@ -6,7 +6,7 @@
 <title>Teddy Day 🧸</title>
 
 <style>
-/* Background */
+/* 🌈 Valentine Rainbow Background */
 body{
   margin:0;
   height:100vh;
@@ -14,15 +14,42 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background:linear-gradient(135deg,#ffdde1,#ee9ca7);
   overflow:hidden;
+  background:linear-gradient(
+    120deg,
+    #ff9a9e,
+    #fad0c4,
+    #fbc2eb,
+    #a6c1ee,
+    #ffdde1
+  );
+  background-size:300% 300%;
+  animation:rainbow 8s ease infinite;
+}
+
+@keyframes rainbow{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* 💖 Floating Valentine Hearts */
+.heart{
+  position:absolute;
+  bottom:-20px;
+  font-size:22px;
+  animation:floatUp 6s linear infinite;
+  opacity:0.7;
+}
+@keyframes floatUp{
+  to{transform:translateY(-120vh);opacity:0;}
 }
 
 /* Card */
 .card{
-  background:white;
-  padding:32px;
-  border-radius:26px;
+  background:rgba(255,255,255,0.94);
+  padding:34px;
+  border-radius:28px;
   width:90%;
   max-width:520px;
   text-align:center;
@@ -39,7 +66,7 @@ body{
 /* Question */
 h1{
   color:#c9184a;
-  font-size:24px;
+  font-size:26px;
   margin-bottom:14px;
 }
 
@@ -52,12 +79,12 @@ p{
 /* Options */
 .option{
   margin:12px 0;
-  padding:12px;
-  border-radius:16px;
+  padding:14px;
+  border-radius:18px;
   background:#ffe8f0;
   cursor:pointer;
   font-size:17px;
-  transition:.2s;
+  transition:.25s;
 }
 .option:hover{
   background:#ffd6e8;
@@ -76,15 +103,15 @@ p{
   opacity:1;
 }
 .side-gif img{
-  width:160px;
+  width:170px;
 }
 
 /* Button */
 button{
-  margin-top:20px;
-  padding:12px 34px;
+  margin-top:22px;
+  padding:12px 36px;
   font-size:18px;
-  border-radius:18px;
+  border-radius:20px;
   border:none;
   background:#c9184a;
   color:white;
@@ -108,20 +135,20 @@ button{
 
 .wish-card{
   background:white;
-  padding:36px;
-  border-radius:30px;
+  padding:38px;
+  border-radius:32px;
   text-align:center;
   box-shadow:0 30px 55px rgba(0,0,0,0.3);
 }
 
 .wish-card h1{
-  font-size:28px;
+  font-size:30px;
   color:#c9184a;
 }
 
 .wish-card img{
-  width:260px;
-  margin-top:16px;
+  width:280px;
+  margin-top:18px;
 }
 
 /* Mobile */
@@ -129,13 +156,25 @@ button{
   .side-gif{
     position:static;
     transform:none;
-    margin-top:16px;
+    margin:16px auto 0;
   }
 }
 </style>
 </head>
 
 <body>
+
+<!-- 💕 Floating hearts -->
+<script>
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💖";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},450);
+</script>
 
 <!-- 🧸 QUIZ -->
 <div class="card" id="quizCard">
@@ -164,7 +203,7 @@ button{
 /* Teddy Questions */
 const questions = [
   {
-    q: "If I were a teddy, where would you keep me? 🧸❤️",
+    q: "If I were a teddy, where would you keep me — bed, arms, or heart? 🧸❤️",
     options: ["On my bed 🛏️", "In my arms 🤗", "In my heart 💖"]
   },
   {

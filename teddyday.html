@@ -1,42 +1,243 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Teddy Day 🧸</title>
 
 <style>
+/* Background */
 body{
-  margin:0;height:100vh;
-  background:linear-gradient(135deg,#ffd166,#fff3b0);
-  display:flex;justify-content:center;align-items:center;
-  font-family:'Comic Sans MS',cursive;
+  margin:0;
+  height:100vh;
+  font-family:"Georgia",serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+  overflow:hidden;
 }
+
+/* Card */
 .card{
-  background:white;padding:30px;border-radius:25px;
+  background:white;
+  padding:32px;
+  border-radius:26px;
+  width:90%;
+  max-width:520px;
   text-align:center;
+  box-shadow:0 25px 45px rgba(0,0,0,0.25);
+  transition:.6s;
 }
-img{width:240px}
+
+.hide{
+  opacity:0;
+  transform:scale(0.9);
+  pointer-events:none;
+}
+
+/* Question */
+h1{
+  color:#c9184a;
+  font-size:24px;
+  margin-bottom:14px;
+}
+
+p{
+  font-size:18px;
+  color:#444;
+  line-height:1.6;
+}
+
+/* Options */
+.option{
+  margin:12px 0;
+  padding:12px;
+  border-radius:16px;
+  background:#ffe8f0;
+  cursor:pointer;
+  font-size:17px;
+  transition:.2s;
+}
+.option:hover{
+  background:#ffd6e8;
+}
+
+/* Side GIF */
+.side-gif{
+  position:absolute;
+  right:40px;
+  top:50%;
+  transform:translateY(-50%);
+  opacity:0;
+  transition:opacity .6s ease;
+}
+.side-gif.show{
+  opacity:1;
+}
+.side-gif img{
+  width:160px;
+}
+
+/* Button */
+button{
+  margin-top:20px;
+  padding:12px 34px;
+  font-size:18px;
+  border-radius:18px;
+  border:none;
+  background:#c9184a;
+  color:white;
+  cursor:pointer;
+}
+
+/* Wish Section */
+.wish{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 1s ease;
+}
+.wish.show{
+  opacity:1;
+}
+
+.wish-card{
+  background:white;
+  padding:36px;
+  border-radius:30px;
+  text-align:center;
+  box-shadow:0 30px 55px rgba(0,0,0,0.3);
+}
+
+.wish-card h1{
+  font-size:28px;
+  color:#c9184a;
+}
+
+.wish-card img{
+  width:260px;
+  margin-top:16px;
+}
+
+/* Mobile */
+@media(max-width:700px){
+  .side-gif{
+    position:static;
+    transform:none;
+    margin-top:16px;
+  }
+}
 </style>
 </head>
 
-<body onclick="playMusic()">
+<body>
 
-<div class="card">
-  <h1>Happy Teddy Day 🧸</h1>
-  <p>A hug just for you 🤗</p>
-  <img src="https://media.giphy.com/media/l0HlI1EyB8BObNk6k/giphy.gif">
+<!-- 🧸 QUIZ -->
+<div class="card" id="quizCard">
+  <h1>🧸 Teddy Day Questions</h1>
+  <p id="question"></p>
+
+  <div id="options"></div>
+
+  <button id="nextBtn" onclick="nextQuestion()" disabled>Next 💕</button>
 </div>
 
-<audio id="music" loop>
-  <source src="https://cdn.pixabay.com/audio/2022/08/01/audio_9f64bb54d8.mp3">
-</audio>
+<!-- ❤️ Side GIF -->
+<div class="side-gif" id="sideGif">
+  <img src="https://media.tenor.com/GPSeRW1WccoAAAAm/i-love-you-iloveyou.webp">
+</div>
+
+<!-- 🎉 WISH -->
+<div class="wish" id="wishSection">
+  <div class="wish-card">
+    <h1>🧸 Happy Teddy Day 💖</h1>
+    <img src="https://media.tenor.com/wEYFAokOXncAAAAm/lova-ya-i-love-it.webp">
+  </div>
+</div>
 
 <script>
-let t=false;
-function playMusic(){
- if(!t){document.getElementById("music").play();t=true;}
+/* Teddy Questions */
+const questions = [
+  {
+    q: "If I were a teddy, where would you keep me? 🧸❤️",
+    options: ["On my bed 🛏️", "In my arms 🤗", "In my heart 💖"]
+  },
+  {
+    q: "Do you still hug soft things when you miss me?",
+    options: ["Always 🤍", "Sometimes 😊", "Only when thinking of you 🥹"]
+  },
+  {
+    q: "Which teddy color reminds you of us?",
+    options: ["Pink 💕", "Brown 🧸", "White 🤍"]
+  },
+  {
+    q: "If we had a teddy with our names, what would you name it?",
+    options: ["Mini Us 🥰", "Love Bear 💖", "Forever Teddy 🧸"]
+  }
+];
+
+let index = 0;
+let answered = false;
+
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const nextBtn = document.getElementById("nextBtn");
+const sideGif = document.getElementById("sideGif");
+
+/* Load Question */
+function loadQuestion(){
+  answered = false;
+  nextBtn.disabled = true;
+  sideGif.classList.remove("show");
+
+  questionEl.innerText = questions[index].q;
+  optionsEl.innerHTML = "";
+
+  questions[index].options.forEach(opt=>{
+    const div = document.createElement("div");
+    div.className = "option";
+    div.innerText = opt;
+    div.onclick = () => selectOption(div);
+    optionsEl.appendChild(div);
+  });
 }
+
+/* Select Option */
+function selectOption(el){
+  document.querySelectorAll(".option").forEach(o=>{
+    o.style.background="#ffe8f0";
+  });
+  el.style.background="#ffb3c6";
+
+  sideGif.classList.add("show");
+  answered = true;
+  nextBtn.disabled = false;
+}
+
+/* Next */
+function nextQuestion(){
+  if(!answered) return;
+  index++;
+  index < questions.length ? loadQuestion() : showWish();
+}
+
+/* Show Wish */
+function showWish(){
+  document.getElementById("quizCard").classList.add("hide");
+  document.getElementById("sideGif").style.display="none";
+  setTimeout(()=>{
+    document.getElementById("wishSection").classList.add("show");
+  },600);
+}
+
+/* Init */
+loadQuestion();
 </script>
+
 </body>
 </html>

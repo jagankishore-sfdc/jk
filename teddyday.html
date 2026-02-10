@@ -26,14 +26,13 @@ body{
   background-size:300% 300%;
   animation:rainbow 8s ease infinite;
 }
-
 @keyframes rainbow{
   0%{background-position:0% 50%;}
   50%{background-position:100% 50%;}
   100%{background-position:0% 50%;}
 }
 
-/* 💖 Floating Valentine Hearts */
+/* 💖 Floating Hearts */
 .heart{
   position:absolute;
   bottom:-20px;
@@ -47,6 +46,7 @@ body{
 
 /* Card */
 .card{
+  position:relative;
   background:rgba(255,255,255,0.94);
   padding:34px;
   border-radius:28px;
@@ -69,7 +69,6 @@ h1{
   font-size:26px;
   margin-bottom:14px;
 }
-
 p{
   font-size:18px;
   color:#444;
@@ -90,20 +89,22 @@ p{
   background:#ffd6e8;
 }
 
-/* Side GIF */
-.side-gif{
+/* Popup GIF */
+.popup-gif{
   position:absolute;
-  right:40px;
-  top:50%;
-  transform:translateY(-50%);
+  top:-40px;
+  left:50%;
+  transform:translateX(-50%) scale(0.5);
   opacity:0;
-  transition:opacity .6s ease;
+  pointer-events:none;
+  transition:opacity .4s ease, transform .4s ease;
 }
-.side-gif.show{
+.popup-gif.show{
   opacity:1;
+  transform:translateX(-50%) scale(1);
 }
-.side-gif img{
-  width:170px;
+.popup-gif img{
+  width:90px;
 }
 
 /* Button */
@@ -140,31 +141,20 @@ button{
   text-align:center;
   box-shadow:0 30px 55px rgba(0,0,0,0.3);
 }
-
 .wish-card h1{
   font-size:30px;
   color:#c9184a;
 }
-
 .wish-card img{
   width:280px;
   margin-top:18px;
-}
-
-/* Mobile */
-@media(max-width:700px){
-  .side-gif{
-    position:static;
-    transform:none;
-    margin:16px auto 0;
-  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- 💕 Floating hearts -->
+<!-- 💖 Floating hearts -->
 <script>
 setInterval(()=>{
   const h=document.createElement("div");
@@ -178,17 +168,18 @@ setInterval(()=>{
 
 <!-- 🧸 QUIZ -->
 <div class="card" id="quizCard">
+
+  <!-- Popup GIF -->
+  <div class="popup-gif" id="popupGif">
+    <img id="popupImg" src="">
+  </div>
+
   <h1>🧸 Teddy Day Questions</h1>
   <p id="question"></p>
 
   <div id="options"></div>
 
   <button id="nextBtn" onclick="nextQuestion()" disabled>Next 💕</button>
-</div>
-
-<!-- ❤️ Side GIF -->
-<div class="side-gif" id="sideGif">
-  <img src="https://media.tenor.com/GPSeRW1WccoAAAAm/i-love-you-iloveyou.webp">
 </div>
 
 <!-- 🎉 WISH -->
@@ -200,7 +191,7 @@ setInterval(()=>{
 </div>
 
 <script>
-/* Teddy Questions */
+/* Questions */
 const questions = [
   {
     q: "If I were a teddy, where would you keep me — bed, arms, or heart? 🧸❤️",
@@ -220,40 +211,52 @@ const questions = [
   }
 ];
 
+/* Popup GIFs per option index */
+const popupGifs = [
+  "https://media.tenor.com/e4oKUWD5kLEAAAAj/love-emoji.gif",
+  "https://media.tenor.com/J_0q3If685UAAAAj/puso-heart.gif",
+  "https://media.tenor.com/CGAxMuno-KEAAAAj/heart-love.gif"
+];
+
 let index = 0;
 let answered = false;
 
 const questionEl = document.getElementById("question");
 const optionsEl = document.getElementById("options");
 const nextBtn = document.getElementById("nextBtn");
-const sideGif = document.getElementById("sideGif");
+const popup = document.getElementById("popupGif");
+const popupImg = document.getElementById("popupImg");
 
 /* Load Question */
 function loadQuestion(){
   answered = false;
   nextBtn.disabled = true;
-  sideGif.classList.remove("show");
+  popup.classList.remove("show");
 
   questionEl.innerText = questions[index].q;
   optionsEl.innerHTML = "";
 
-  questions[index].options.forEach(opt=>{
+  questions[index].options.forEach((opt,i)=>{
     const div = document.createElement("div");
     div.className = "option";
     div.innerText = opt;
-    div.onclick = () => selectOption(div);
+    div.onclick = () => selectOption(div,i);
     optionsEl.appendChild(div);
   });
 }
 
 /* Select Option */
-function selectOption(el){
+function selectOption(el, optIndex){
   document.querySelectorAll(".option").forEach(o=>{
     o.style.background="#ffe8f0";
   });
   el.style.background="#ffb3c6";
 
-  sideGif.classList.add("show");
+  popupImg.src = popupGifs[optIndex];
+  popup.classList.add("show");
+
+  setTimeout(()=>popup.classList.remove("show"),2500);
+
   answered = true;
   nextBtn.disabled = false;
 }
@@ -268,7 +271,6 @@ function nextQuestion(){
 /* Show Wish */
 function showWish(){
   document.getElementById("quizCard").classList.add("hide");
-  document.getElementById("sideGif").style.display="none";
   setTimeout(()=>{
     document.getElementById("wishSection").classList.add("show");
   },600);

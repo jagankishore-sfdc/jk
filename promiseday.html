@@ -6,7 +6,6 @@
 <title>Promise Day 💍</title>
 
 <style>
-/* 🌹 Soulful Valentine Background */
 body{
   margin:0;
   height:100vh;
@@ -33,7 +32,7 @@ body{
   100%{background-position:0% 50%;}
 }
 
-/* 💖 Floating Love Symbols */
+/* Floating Love Symbols */
 .love{
   position:absolute;
   bottom:-30px;
@@ -41,7 +40,6 @@ body{
   opacity:0.7;
   animation:floatUp 7s linear infinite;
 }
-
 @keyframes floatUp{
   to{
     transform:translateY(-120vh);
@@ -49,7 +47,6 @@ body{
   }
 }
 
-/* Card Styling */
 .card{
   background:rgba(255,255,255,0.95);
   padding:38px;
@@ -67,7 +64,6 @@ body{
   pointer-events:none;
 }
 
-/* Text Styling */
 h1{
   color:#b3005e;
   font-size:28px;
@@ -76,11 +72,10 @@ h1{
 
 p{
   font-size:18px;
-  line-height:1.8;
+  line-height:1.9;
   color:#444;
 }
 
-/* Button */
 button{
   margin-top:28px;
   padding:12px 40px;
@@ -92,7 +87,6 @@ button{
   cursor:pointer;
 }
 
-/* Wish Screen */
 .wish{
   position:absolute;
   inset:0;
@@ -128,13 +122,11 @@ button{
   animation:glow 2s ease-in-out infinite alternate;
 }
 
-/* Soft glow */
 @keyframes glow{
   from{filter:drop-shadow(0 0 10px rgba(255,0,102,.4));}
   to{filter:drop-shadow(0 0 25px rgba(255,0,102,.8));}
 }
 
-/* Mobile */
 @media(max-width:700px){
   p{font-size:16px;}
   .wish-card img{width:240px;}
@@ -144,9 +136,8 @@ button{
 
 <body>
 
-<!-- 🌹 Floating Love Script -->
 <script>
-const symbols=["❤️","💞","💖","💍","✨"];
+const symbols=["❤️","💞","💖","💍","✨","😊"];
 setInterval(()=>{
   const l=document.createElement("div");
   l.className="love";
@@ -159,13 +150,13 @@ setInterval(()=>{
 
 <!-- 💌 Promise Screen -->
 <div class="card" id="promiseCard">
-  <h1>💍 Promise Day</h1>
+  <h1>💍 Promise Day ❤️</h1>
   <p>
-  On this Promise Day, I don’t just promise you words… I promise you actions.<br><br>
-  I promise to respect you, to stand with you in every situation, and to protect the peace we build together.<br><br>
-  I promise that no matter how life tests us, I will never stop choosing you.<br><br>
-  You are not just my present happiness… you are the future I pray for every single day.<br><br>
-  And as long as I breathe, my heart will remain loyal to you.
+  On this Promise Day 💍, I don’t just promise you words… I promise you actions ❤️.<br><br>
+  I promise to respect you 😊, to stand with you in every situation 🤝, and to protect the peace we build together 💖.<br><br>
+  I promise that no matter how life tests us 🌧️, I will never stop choosing you ❤️.<br><br>
+  You are not just my present happiness 😊… you are the future I pray for every single day 💫💖.<br><br>
+  And as long as I breathe 💞, my heart will remain loyal to you ❤️.
   </p>
 
   <button onclick="showWish()">Forever Yours 💖</button>
@@ -174,7 +165,7 @@ setInterval(()=>{
 <!-- 🎉 Wish Screen -->
 <div class="wish" id="wishSection">
   <div class="wish-card">
-    <h1>💍 Happy Promise Day 💖</h1>
+    <h1>💍 Happy Promise Day ❤️</h1>
     <img src="https://media1.tenor.com/m/J4q3MbftwqoAAAAd/milk-mocha-bear.gif">
   </div>
 </div>

@@ -1,43 +1,192 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Promise Day 🤝</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promise Day 💍</title>
 
 <style>
+/* 🌹 Soulful Valentine Background */
 body{
-  margin:0;height:100vh;
-  background:linear-gradient(135deg,#cdb4db,#ffc8dd);
-  display:flex;justify-content:center;align-items:center;
-  font-family:'Comic Sans MS',cursive;
+  margin:0;
+  height:100vh;
+  font-family:"Georgia",serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  background:linear-gradient(
+    135deg,
+    #ff9a9e,
+    #fad0c4,
+    #fbc2eb,
+    #a6c1ee,
+    #ffdde1
+  );
+  background-size:300% 300%;
+  animation:gradientFlow 10s ease infinite;
 }
+
+@keyframes gradientFlow{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* 💖 Floating Love Symbols */
+.love{
+  position:absolute;
+  bottom:-30px;
+  font-size:22px;
+  opacity:0.7;
+  animation:floatUp 7s linear infinite;
+}
+
+@keyframes floatUp{
+  to{
+    transform:translateY(-120vh);
+    opacity:0;
+  }
+}
+
+/* Card Styling */
 .card{
-  background:white;padding:30px;border-radius:25px;
+  background:rgba(255,255,255,0.95);
+  padding:38px;
+  border-radius:32px;
+  max-width:600px;
+  width:90%;
   text-align:center;
-  box-shadow:0 0 25px rgba(255,0,150,.3);
+  box-shadow:0 30px 60px rgba(0,0,0,0.25);
+  transition:opacity .8s ease, transform .8s ease;
 }
-img{width:240px}
+
+.hide{
+  opacity:0;
+  transform:scale(0.95);
+  pointer-events:none;
+}
+
+/* Text Styling */
+h1{
+  color:#b3005e;
+  font-size:28px;
+  margin-bottom:18px;
+}
+
+p{
+  font-size:18px;
+  line-height:1.8;
+  color:#444;
+}
+
+/* Button */
+button{
+  margin-top:28px;
+  padding:12px 40px;
+  font-size:18px;
+  border:none;
+  border-radius:24px;
+  background:#b3005e;
+  color:white;
+  cursor:pointer;
+}
+
+/* Wish Screen */
+.wish{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 1s ease;
+}
+
+.wish.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.wish-card{
+  background:white;
+  padding:42px;
+  border-radius:36px;
+  text-align:center;
+  box-shadow:0 30px 60px rgba(0,0,0,0.35);
+}
+
+.wish-card h1{
+  font-size:32px;
+  color:#b3005e;
+}
+
+.wish-card img{
+  width:300px;
+  margin-top:20px;
+  animation:glow 2s ease-in-out infinite alternate;
+}
+
+/* Soft glow */
+@keyframes glow{
+  from{filter:drop-shadow(0 0 10px rgba(255,0,102,.4));}
+  to{filter:drop-shadow(0 0 25px rgba(255,0,102,.8));}
+}
+
+/* Mobile */
+@media(max-width:700px){
+  p{font-size:16px;}
+  .wish-card img{width:240px;}
+}
 </style>
 </head>
 
-<body onclick="playMusic()">
+<body>
 
-<div class="card">
-  <h1>Happy Promise Day 🤝</h1>
-  <p>I promise — today, tomorrow, always 💞</p>
-  <img src="https://media.giphy.com/media/xT0xeMA62E1XIlup68/giphy.gif">
+<!-- 🌹 Floating Love Script -->
+<script>
+const symbols=["❤️","💞","💖","💍","✨"];
+setInterval(()=>{
+  const l=document.createElement("div");
+  l.className="love";
+  l.innerHTML=symbols[Math.floor(Math.random()*symbols.length)];
+  l.style.left=Math.random()*100+"vw";
+  document.body.appendChild(l);
+  setTimeout(()=>l.remove(),7000);
+},500);
+</script>
+
+<!-- 💌 Promise Screen -->
+<div class="card" id="promiseCard">
+  <h1>💍 Promise Day</h1>
+  <p>
+  On this Promise Day, I don’t just promise you words… I promise you actions.<br><br>
+  I promise to respect you, to stand with you in every situation, and to protect the peace we build together.<br><br>
+  I promise that no matter how life tests us, I will never stop choosing you.<br><br>
+  You are not just my present happiness… you are the future I pray for every single day.<br><br>
+  And as long as I breathe, my heart will remain loyal to you.
+  </p>
+
+  <button onclick="showWish()">Forever Yours 💖</button>
 </div>
 
-<audio id="music" loop>
-  <source src="https://cdn.pixabay.com/audio/2023/03/02/audio_79ffb7b49c.mp3">
-</audio>
+<!-- 🎉 Wish Screen -->
+<div class="wish" id="wishSection">
+  <div class="wish-card">
+    <h1>💍 Happy Promise Day 💖</h1>
+    <img src="https://media1.tenor.com/m/J4q3MbftwqoAAAAd/milk-mocha-bear.gif">
+  </div>
+</div>
 
 <script>
-let pr=false;
-function playMusic(){
- if(!pr){document.getElementById("music").play();pr=true;}
+function showWish(){
+  document.getElementById("promiseCard").classList.add("hide");
+  setTimeout(()=>{
+    document.getElementById("wishSection").classList.add("show");
+  },700);
 }
 </script>
+
 </body>
 </html>
